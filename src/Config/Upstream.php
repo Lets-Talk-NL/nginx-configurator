@@ -5,6 +5,7 @@
  * Date: 08.04.16
  * Time: 21:07
  */
+
 namespace Madkom\NginxConfigurator\Config;
 
 use Madkom\NginxConfigurator\Node\Context;
@@ -14,7 +15,7 @@ use Madkom\NginxConfigurator\Node\Param;
 /**
  * Class Upstream
  * @package Madkom\NginxConfigurator\Config
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class Upstream extends Context
 {
@@ -22,11 +23,11 @@ class Upstream extends Context
      * Holds upstream name
      * @var Param
      */
-    private $upstream;
+    private Param $upstream;
 
     /**
      * Upstream constructor.
-     * @param Param $upstream
+     * @param Param       $upstream
      * @param Directive[] $directives
      */
     public function __construct(Param $upstream, array $directives = [])
@@ -35,12 +36,12 @@ class Upstream extends Context
         parent::__construct('upstream', $directives);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return (string)$this->upstream->getValue();
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return sprintf(
             "{$this->name} %s {\n\t%s\n}\n",

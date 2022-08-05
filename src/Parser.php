@@ -5,6 +5,7 @@
  * Date: 06.04.16
  * Time: 13:01
  */
+
 namespace Madkom\NginxConfigurator;
 
 use Ferno\Loco\ConcParser;
@@ -31,7 +32,7 @@ use Madkom\NginxConfigurator\Node\RootNode;
 /**
  * Class Parser
  * @package Madkom\NginxConfigurator
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class Parser extends Grammar
 {
@@ -39,12 +40,12 @@ class Parser extends Grammar
      * Holds parsed filename
      * @var string
      */
-    protected $filename;
+    protected string $filename;
     /**
      * Holds parsed string
      * @var string
      */
-    protected $content;
+    protected string $content;
 
     /**
      * Parser constructor.
@@ -52,9 +53,9 @@ class Parser extends Grammar
     public function __construct()
     {
         parent::__construct('syntax', [
-            'syntax' => new GreedyStarParser(new LazyAltParser(['directive', 'section'])),
-            'sections' => new GreedyMultiParser('section', 0, 2),
-            'section' => new ConcParser(
+            'syntax'       => new GreedyStarParser(new LazyAltParser(['directive', 'section'])),
+            'sections'     => new GreedyMultiParser('section', 0, 2),
+            'section'      => new ConcParser(
                 [
                     'section-name',
                     new LazyAltParser(['space', 'opt-space']),
@@ -70,8 +71,8 @@ class Parser extends Grammar
             ),
             'section-name' => new RegexParser('/^[a-z0-9\_]+/i'),
 
-            'directives' => new GreedyMultiParser('directive', 0, null),
-            'directive' => new LazyAltParser([
+            'directives'     => new GreedyMultiParser('directive', 0, null),
+            'directive'      => new LazyAltParser([
                 new ConcParser([
                     'directive-name',
                     'semicolon',
@@ -83,43 +84,43 @@ class Parser extends Grammar
                     'params',
                     'semicolon',
                     new LazyAltParser(['space', 'opt-space']),
-                ], [$this, 'parseDirective'])
+                ], [$this, 'parseDirective']),
             ]),
             'directive-name' => new RegexParser('/^[a-z0-9\_]+/i'),
 
-            'params' => new GreedyMultiParser(new ConcParser(['param', 'opt-space'], function ($param, $space) {
+            'params'     => new GreedyMultiParser(new ConcParser(['param', 'opt-space'], function ($param, $space) {
                 return $param;
             }), 0, null),
-            'param' => new LazyAltParser(['literal', 'param-name']),
+            'param'      => new LazyAltParser(['literal', 'param-name']),
             'param-name' => new RegexParser('/^[^\s\r\n\{\}\;\"\']+/i', function ($match) {
                 return new Param($match);
             }),
-            'literal' => new LazyAltParser([
+            'literal'    => new LazyAltParser([
                 new RegexParser('/^"([^"]*)"/', function ($match0, $match1) {
                     return new Literal($match1);
                 }),
                 new RegexParser("/^'([^']*)'/", function ($match0, $match1) {
                     return new Literal($match1);
-                })
+                }),
             ]),
 
-            'semicolon' => new StringParser(';', function () {
+            'semicolon'          => new StringParser(';', function () {
                 return null;
             }),
-            'space' => new GreedyStarParser('whitespace/comment', function () {
+            'space'              => new GreedyStarParser('whitespace/comment', function () {
                 return null;
             }),
             'whitespace/comment' => new LazyAltParser(['whitespace', 'comment'], function () {
                 return null;
             }),
-            'comment' => new RegexParser("/^#+([^\r\n]*)/", function () {
+            'comment'            => new RegexParser("/^#+([^\r\n]*)/", function () {
                 return null;
             }),
-            'whitespace' => new RegexParser("/^[ \t\r\n]+/"),
-            'opt-space' => new RegexParser("/^[ \t\r\n]?/"),
-            'eol' => new LazyAltParser([new StringParser("\r"), new StringParser("\n")], function () {
+            'whitespace'         => new RegexParser("/^[ \t\r\n]+/"),
+            'opt-space'          => new RegexParser("/^[ \t\r\n]?/"),
+            'eol'                => new LazyAltParser([new StringParser("\r"), new StringParser("\n")], function () {
                 return null;
-            })
+            }),
         ], function (array $nodes = []) {
             return new RootNode($nodes);
         });
@@ -131,9 +132,9 @@ class Parser extends Grammar
      * @return mixed
      * @throws ParseFailureException
      */
-    public function parseFile(string $filename) : RootNode
+    public function parseFile(string $filename): RootNode
     {
-        $this->content = null;
+        $this->content  = null;
         $this->filename = $filename;
 
         return $this->parse(file_get_contents($filename));
@@ -145,9 +146,9 @@ class Parser extends Grammar
      * @return mixed
      * @throws ParseFailureException
      */
-    public function parse($string) : RootNode
+    public function parse($string): RootNode
     {
-        $this->content = $string;
+        $this->content  = $string;
         $this->filename = null;
 
         return parent::parse($string);
@@ -155,25 +156,25 @@ class Parser extends Grammar
 
     /**
      * Parses section entries
-     * @param string $section Section name
-     * @param null $space0 Ignored
-     * @param Param[] $params Params collection
-     * @param null $open Ignored
-     * @param null $space1 Ignored
+     * @param string      $section    Section name
+     * @param null        $space0     Ignored
+     * @param Param[]     $params     Params collection
+     * @param null        $open       Ignored
+     * @param null        $space1     Ignored
      * @param Directive[] $directives Directives collection
      * @return Context
      * @throws GrammarException
      * @throws UnrecognizedContextException
      */
-    protected function parseSection($section, $space0, $params, $open, $space1, $directives) : Context
+    protected function parseSection($section, $space0, $params, $open, $space1, $directives): Context
     {
         switch ($section) {
             case 'server':
                 return new Server($directives);
-            
+
             case 'http':
                 return new Http($directives);
-            
+
             case 'location':
                 $modifier = null;
                 if (sizeof($params) == 2) {
@@ -189,10 +190,10 @@ class Parser extends Grammar
                     );
                 }
                 return new Location($location, $modifier, $directives);
-            
+
             case 'events':
                 return new Events($directives);
-            
+
             case 'upstream':
                 list($upstream) = $params;
                 return new Upstream($upstream, $directives);
@@ -209,11 +210,11 @@ class Parser extends Grammar
     /**
      * Parses directive
      * @param string $name
-     * @param null $space
-     * @param array $params
+     * @param null   $space
+     * @param array  $params
      * @return Directive
      */
-    protected function parseDirective(string $name, $space = null, $params = []) : Directive
+    protected function parseDirective(string $name, $space = null, $params = []): Directive
     {
         return new Directive($name, is_null($params) ? [] : $params);
     }

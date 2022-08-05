@@ -5,6 +5,7 @@
  * Date: 18.04.16
  * Time: 11:06
  */
+
 namespace Madkom\NginxConfigurator;
 
 use Countable;
@@ -16,14 +17,14 @@ use Traversable;
 /**
  * Class Builder
  * @package Madkom\NginxConfigurator
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class Builder implements Countable
 {
     /**
      * @var RootNode Holds configuration root node
      */
-    protected $rootNode;
+    protected RootNode $rootNode;
 
     /**
      * Builder constructor.
@@ -36,7 +37,7 @@ class Builder implements Countable
     /**
      * Clears builder root node
      */
-    public function clear()
+    public function clear(): void
     {
         $this->rootNode = new RootNode();
     }
@@ -46,7 +47,7 @@ class Builder implements Countable
      * @param Node $node
      * @return Node
      */
-    public function append(Node $node) : Node
+    public function append(Node $node): Node
     {
         $this->rootNode->append($node);
 
@@ -58,7 +59,7 @@ class Builder implements Countable
      * @param Node $node
      * @return bool
      */
-    public function remove(Node $node) : bool
+    public function remove(Node $node): bool
     {
         return $this->rootNode->remove($node);
     }
@@ -68,7 +69,7 @@ class Builder implements Countable
      * @param callable $checker
      * @return CustomTypedCollection
      */
-    public function search(callable $checker) : CustomTypedCollection
+    public function search(callable $checker): CustomTypedCollection
     {
         return $this->rootNode->filter($checker);
     }
@@ -78,7 +79,7 @@ class Builder implements Countable
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      */
-    public function count()
+    public function count(): int
     {
         return count($this->rootNode);
     }
@@ -88,7 +89,7 @@ class Builder implements Countable
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return $this->rootNode->getIterator();
     }
@@ -96,7 +97,7 @@ class Builder implements Countable
     /**
      * @return string
      */
-    public function dump() : string
+    public function dump(): string
     {
         return (string)$this->rootNode;
     }
@@ -105,7 +106,7 @@ class Builder implements Countable
      * @param string $filename
      * @return bool
      */
-    public function dumpFile(string $filename) : bool
+    public function dumpFile(string $filename): bool
     {
         return file_put_contents($filename, $this->dump());
     }

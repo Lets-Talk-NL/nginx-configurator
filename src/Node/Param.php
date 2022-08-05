@@ -5,19 +5,20 @@
  * Date: 08.04.16
  * Time: 10:31
  */
+
 namespace Madkom\NginxConfigurator\Node;
 
 /**
  * Class Param
  * @package Madkom\NginxConfigurator
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class Param
 {
     /**
      * @var string
      */
-    protected $value;
+    protected string $value;
 
     /**
      * Param constructor.
@@ -32,7 +33,7 @@ class Param
      * Retrieve param value
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -40,7 +41,7 @@ class Param
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->value;
     }

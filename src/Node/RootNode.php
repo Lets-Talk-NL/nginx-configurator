@@ -5,12 +5,13 @@
  * Date: 08.04.16
  * Time: 21:18
  */
+
 namespace Madkom\NginxConfigurator\Node;
 
 /**
  * Class RootNode
  * @package Madkom\NginxConfigurator\node
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class RootNode extends Node
 {

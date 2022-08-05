@@ -5,6 +5,7 @@
  * Date: 08.04.16
  * Time: 21:00
  */
+
 namespace Madkom\NginxConfigurator\Config;
 
 use Madkom\NginxConfigurator\Node\Context;
@@ -12,7 +13,7 @@ use Madkom\NginxConfigurator\Node\Context;
 /**
  * Class Server
  * @package Madkom\NginxConfigurator\Config
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 class Server extends Context
 {

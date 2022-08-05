@@ -5,21 +5,22 @@
  * Date: 08.04.16
  * Time: 20:53
  */
+
 namespace Madkom\NginxConfigurator\Node;
 
 /**
  * Class Context
  * @package Madkom\NginxConfigurator\Node
- * @author Michał Brzuchalski <m.brzuchalski@madkom.pl>
+ * @author  Michał Brzuchalski <m.brzuchalski@madkom.pl>
  */
 abstract class Context extends Node
 {
     /**
      * Context constructor.
-     * @param string $name
+     * @param string      $name
      * @param Directive[] $directives
      */
-    public function __construct($name, array $directives = [])
+    public function __construct(string $name, array $directives = [])
     {
         parent::__construct($name);
         foreach ($directives as $directive) {
@@ -27,7 +28,7 @@ abstract class Context extends Node
         }
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         $childStrings = [];
         foreach ($this->childNodes as $childNode) {
