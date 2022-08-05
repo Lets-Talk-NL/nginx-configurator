@@ -1,34 +1,42 @@
 {
-  "name": "madkom/nginx-configurator",
-  "license": "MIT",
-  "homepage": "http://madkom.pl/",
-  "minimum-stability": "dev",
-  "require": {
-    "madkom/collection": "1.*",
-    "ferno/loco": "@dev",
-    "madkom/uri": "1.*"
-  },
-  "require-dev": {
-    "symfony/var-dumper": "^3.1"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:madkom/loco.git"
+    "name": "madkom/nginx-configurator",
+    "license": "MIT",
+    "homepage": "http://madkom.pl/",
+    "minimum-stability": "dev",
+    "require": {
+        "madkom/collection": "dev-master",
+        "ferno/loco": "@dev",
+        "madkom/uri": "dev-master"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^3.1"
+    },
+    "repositories": [
+        {
+            "type": "github",
+            "url": "https://github.com/Lets-Talk-NL/madkom-collection"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/Lets-Talk-NL/madkom-uri"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:madkom/loco.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Madkom\\NginxConfigurator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Michał Brzuchalski",
+            "email": "m.brzuchalski@madkom.pl"
+        }
+    ],
+    "config": {
+        "bin-dir": "bin/"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Madkom\\NginxConfigurator\\": "src/"
-    }
-  },
-  "authors": [
-    {
-      "name": "Michał Brzuchalski",
-      "email": "m.brzuchalski@madkom.pl"
-    }
-  ],
-  "config": {
-    "bin-dir": "bin/"
-  }
 }
